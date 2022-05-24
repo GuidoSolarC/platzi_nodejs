@@ -1,4 +1,5 @@
 const express = require('express')
+const res = require('express/lib/response')
 const faker = require('faker')
 
 const router = express.Router()
@@ -39,4 +40,17 @@ router.get('/fakeData', (req, res) => {
   res.json(products)
 
 })
+
+router.post('/', (request, response) => {
+  // Parámetros a recibir
+  const body = request.body
+  response.json({
+    message: 'Creado',
+    data: body
+  })
+})
+
+
+
+
 module.exports = router

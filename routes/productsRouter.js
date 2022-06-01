@@ -45,7 +45,7 @@ router.get('/fakeData', (req, res) => {
 router.post('/', (request, response) => {
   // Parámetros a recibir
   const body = request.body
-  response.json({
+  response.status(201).json({
     message: 'Creado',
     data: body
   })
@@ -56,7 +56,7 @@ router.patch('/:id', (request, response) => {
   // Parámetros a recibir
   const { id } = request.params;
   const body = request.body
-  response.json({
+  response.status(200).json({
     message: 'Partial update',
     data: body,
     id
@@ -68,7 +68,7 @@ router.put('/:id', (request, response) => {
   // Parámetros a recibir
   const { id } = request.params;
   const body = request.body
-  response.json({
+  response.status(200).json({
     message: 'Update normal',
     data: body,
     id
@@ -79,7 +79,7 @@ router.put('/:id', (request, response) => {
 router.delete('/:id', (request, response) => {
   // Parámetros a recibir
   const { id } = request.params;
-  response.json({
+  response.status(200).json({
     message: 'Item eliminado',
     id
   })

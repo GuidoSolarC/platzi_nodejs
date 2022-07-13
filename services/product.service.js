@@ -21,8 +21,13 @@ class ProductsService {
         }
     }
 
-    create() {
-
+    create(data) {
+      const newProduct = {
+        id: faker.datatype.uuid(),
+        ...data
+      }
+      this.products.push(newProduct)
+      return newProduct
     }
 
     find(id) {
@@ -31,6 +36,28 @@ class ProductsService {
 
     findAll() {
         return this.products
+    }
+
+    update(id, changes) { // Id para buscar, changes con cambios
+      const index = this.products.findIndex(item => item.id === id)
+      if(index === -1) { // En caso que objeto no exista en array
+        throw new Error('Product not found')
+      }
+      const product =  this.products[index]
+      this.products[index] = {
+        ...product,
+        ...changes
+      }
+      return this.products[index]
+    }
+
+    delete(id){
+      const index = this.products.findIndex(item => item.id === id)
+      if(index === -1) { // En caso que objeto no exista en array
+        throw new Error('Product not found')
+      }
+      this.products.splice(index, 1)
+      return { message: true, id }
     }
 
 

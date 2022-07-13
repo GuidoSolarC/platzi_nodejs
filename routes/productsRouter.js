@@ -5,26 +5,24 @@ const router = express.Router()
 const servicio = new ProductsService()
 
 // Get
-router.get('/', (req, res) => {
+router.get('/', (request, response) => {
   const products = servicio.findAll()
-  res.json(products)
+  response.json(products)
 })
 
 // Get by ID
-router.get('/:id', (req, res) => {
-  const { id } = req.params
+router.get('/:id', (request, response) => {
+  const { id } = request.params
   const product = servicio.find(id)
-  res.json(product)
+  response.json(product)
 })
 
 // Insert
 router.post('/', (request, response) => {
   // Parámetros a recibir
   const body = request.body
-  response.status(201).json({
-    message: 'Creado',
-    data: body
-  })
+  const newProduct = servicio.create(body)
+  response.json(newProduct)
 })
 
 // Update (parcial, no "obliga" a enviar todos los atributos)
@@ -32,11 +30,8 @@ router.patch('/:id', (request, response) => {
   // Parámetros a recibir
   const { id } = request.params;
   const body = request.body
-  response.status(200).json({
-    message: 'Partial update',
-    data: body,
-    id
-  })
+  const product = servicio.update(id, body)
+  response.json(product)
 })
 
 // Update normal
@@ -44,21 +39,16 @@ router.put('/:id', (request, response) => {
   // Parámetros a recibir
   const { id } = request.params;
   const body = request.body
-  response.status(200).json({
-    message: 'Update normal',
-    data: body,
-    id
-  })
+  const product = servicio.update(id, body)
+  response.json(product)
 })
 
 // Delete
 router.delete('/:id', (request, response) => {
   // Parámetros a recibir
   const { id } = request.params;
-  response.status(200).json({
-    message: 'Item eliminado',
-    id
-  })
+  const resServicio = servicio.delete(id)
+  response.json(resServicio)
 })
 
 // Exporto el módulo para su uso

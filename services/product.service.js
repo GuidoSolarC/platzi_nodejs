@@ -21,7 +21,7 @@ class ProductsService {
         }
     }
 
-    create(data) {
+    async create(data) {
       const newProduct = {
         id: faker.datatype.uuid(),
         ...data
@@ -30,15 +30,23 @@ class ProductsService {
       return newProduct
     }
 
-    find(id) {
-        return this.products.find(item => item.id === id)
+    async findAll() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(this.products)
+        }, 2500)
+      })
     }
 
-    findAll() {
-        return this.products
+    async find(id) {
+      const index = this.products.findIndex(item => item.id === id)
+      if(index === -1) { // En caso que objeto no exista en array
+        throw new Error('Product not found')
+      }
+      return this.products.find(item => item.id === id)
     }
 
-    update(id, changes) { // Id para buscar, changes con cambios
+    async update(id, changes) { // Id para buscar, changes con cambios
       const index = this.products.findIndex(item => item.id === id)
       if(index === -1) { // En caso que objeto no exista en array
         throw new Error('Product not found')
@@ -51,7 +59,7 @@ class ProductsService {
       return this.products[index]
     }
 
-    delete(id){
+    async delete(id){
       const index = this.products.findIndex(item => item.id === id)
       if(index === -1) { // En caso que objeto no exista en array
         throw new Error('Product not found')

@@ -25,15 +25,13 @@ async function findAllProducts(request, response){
   response.json(products)
 }
 
-async function findProductById(request, response){
+async function findProductById(request, response, next){
   try {
     const { id } = request.params
     const product = await servicio.find(id)
     response.json(product)
   } catch (error) {
-    response.status(404).json({
-      message: error.message
-    })
+    next(error)
   }
 }
 
@@ -44,7 +42,7 @@ async function insertNewProduct(request, response){
   response.json(newProduct)
 }
 
-async function updateProductPartial(request, response){
+async function updateProductPartial(request, response, next){
   try {
     // Parámetros a recibir
     const { id } = request.params;
@@ -52,13 +50,11 @@ async function updateProductPartial(request, response){
     const product = await servicio.update(id, body)
     response.json(product)
   } catch (error) {
-    response.status(404).json({
-      message: error.message
-    })
+    next(error)
   }
 }
 
-async function updateProduct(request, response){
+async function updateProduct(request, response, next){
   try {
     // Parámetros a recibir
     const { id } = request.params;
@@ -66,22 +62,18 @@ async function updateProduct(request, response){
     const product = await servicio.update(id, body)
     response.json(product)
   } catch (error) {
-    response.status(404).json({
-      message: error.message
-    })
+    next(error)
   }
 }
 
-async function deleteProduct(request, response){
+async function deleteProduct(request, response, next){
   try {
     // Parámetros a recibir
     const { id } = request.params;
     const resServicio = await servicio.delete(id)
     response.json(resServicio)
   } catch (error) {
-    response.status(404).json({
-      message: error.message
-    })
+    next(error)
   }
 }
 

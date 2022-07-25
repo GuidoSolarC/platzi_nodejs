@@ -1,5 +1,7 @@
 const express = require('express')
 const routesApp = require('./routes')
+// Middlewares
+const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler')
 
 const app = express()
 const port = 3000
@@ -16,3 +18,7 @@ app.listen(port, () => {
 })
 
 routesApp(app)
+// Middlewares de error, estos se comportan de manera secuencial
+app.use(logErrors)
+app.use(boomErrorHandler)
+app.use(errorHandler)

@@ -1,5 +1,7 @@
 const express = require('express')
 const ProductsService = require('./../services/product.service')
+const validatorHandler = require('./../middlewares/validator.handler')
+const { createProductSchema, updateProductSchema, getProductSchema } = require('./../schemas/product.schema')
 
 const router = express.Router()
 const servicio = new ProductsService()
@@ -8,15 +10,23 @@ const servicio = new ProductsService()
 // Get
 router.get('/', findAllProducts)
 // Get by ID
-router.get('/:id', findProductById)
+router.get('/:id', validatorHandler(getProductSchema, 'params'), findProductById)
 // Insert
-router.post('/', insertNewProduct)
+router.post('/', validatorHandler(createProductSchema, 'body'), insertNewProduct)
 // Update (parcial, no "obliga" a enviar todos los atributos)
-router.patch('/:id', updateProductPartial)
+router.patch('/:id', 
+  validatorHandler(getProductSchema, 'params'), 
+  validatorHandler(updateProductSchema, 'body'),
+  updateProductPartial
+)
 // Update normal
-router.put('/:id', updateProduct)
+router.put('/:id', 
+  validatorHandler(getProductSchema, 'params'), 
+  validatorHandler(updateProductSchema, 'body'),
+  updateProduct
+)
 // Delete
-router.delete('/:id', deleteProduct)
+router.delete('/:id', validatorHandler(getProductSchema, 'params'), deleteProduct)
 
 
 /* Separo responsabilidades en funciones */
